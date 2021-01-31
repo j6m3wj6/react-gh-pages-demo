@@ -26,12 +26,12 @@ function Bidding (props) {
 
   const handleSubmit = async (e , { name, value }) => {
     setText(info.name)
-    // const res = await axios.get(
-    //   'https://tymphany-bidding-server.herokuapp.com/api/bidding'
-    // )
     const res = await axios.get(
-      'http://localhost:5000/api/bidding'
+      'https://tymphany-bidding-server.herokuapp.com/api/bidding'
     )
+    // const res = await axios.get(
+    //   'http://localhost:5000/api/bidding'
+    // )
     console.log('submit', res)
     setData(res.data.content)
   }
