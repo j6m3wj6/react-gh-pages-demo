@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/tymphany-bidding-demo/static/js/main.247142cb.chunk.js",
-    "main.js.map": "/tymphany-bidding-demo/static/js/main.247142cb.chunk.js.map",
+    "main.js": "/tymphany-bidding-demo/static/js/main.f66c5f53.chunk.js",
+    "main.js.map": "/tymphany-bidding-demo/static/js/main.f66c5f53.chunk.js.map",
     "runtime-main.js": "/tymphany-bidding-demo/static/js/runtime-main.1a5bffe6.js",
     "runtime-main.js.map": "/tymphany-bidding-demo/static/js/runtime-main.1a5bffe6.js.map",
     "static/css/2.42cf9e0e.chunk.css": "/tymphany-bidding-demo/static/css/2.42cf9e0e.chunk.css",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.1a5bffe6.js",
     "static/css/2.42cf9e0e.chunk.css",
     "static/js/2.13326ee9.chunk.js",
-    "static/js/main.247142cb.chunk.js"
+    "static/js/main.f66c5f53.chunk.js"
   ]
 }
