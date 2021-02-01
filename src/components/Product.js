@@ -107,7 +107,7 @@ const DetailInfo = (props) => {
     // const res = await axios.get(
     //   `http://localhost:5000/api/bidding?_no=${props._no}`
     // )
-    // console.log('fetchResource', res.data.content[0].bidding)
+    console.log('fetchResource price', res.data.content[0].bidding)
     setData(res.data.content[0].bidding)
     
     res.data.content[0].bidding.sort(function(a, b) {
