@@ -18,7 +18,6 @@ const BiddingInfo = (props) => {
     const newInfo = info;
     newInfo[name] = value;
     setInfo(newInfo);
-    // console.log(info)
   }
   const handleSubmit = async () => {
     let completeInfo = true;
@@ -175,7 +174,7 @@ function Product(props) {
       <div className='tg_card' >
         <Image className='img' centered src={process.env.PUBLIC_URL+ `/img/${data._no}.jpg`}/>
         <div style={{ height: 'fit-content' }}>
-          <h5 className='brand'> {data.module}</h5>
+          <h5 className='brand'> {`#${data._no} ${data.module}`}{data._no}</h5>
           <p>{data.brand}</p>
         </div>
         <Divider />
