@@ -38,7 +38,7 @@ const BiddingInfo = (props) => {
     // else console.log("not complete")
   }
   const submitBidding = async (data) => {
-    return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding', 
+    return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding/append', 
       data, 
       {'Content-Type': 'application/json'})
         .then((response) => {
@@ -83,15 +83,17 @@ const BiddingInfo = (props) => {
           onChange={handleChange}
         />
       </Form.Field>
-      <Form.Field>
+      <Form.Field >
         <label>出價 (Bidding Price) </label>
-        <Form.Input
+        <Form.Input 
           required={true}
-          pattern="([50]|[00]{2})\w+"
-          placeholder='tong.wang@tymphany.com'
+          pattern="([0-9][50]|[00]{2})\w+"
+          placeholder='請輸入50的倍數 '
+          title="請輸入50的倍數。 This number must be in multiples of 50"
           name='price'
           onChange={handleChange}
         />
+        <span className="caption">*This number must be in multiples of 50</span>
       </Form.Field>
       
       {/* <Message

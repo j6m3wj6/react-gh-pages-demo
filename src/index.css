@@ -110,3 +110,9 @@ code {
 .tg_card .detail .shortage {
   color: var(--Red__standard)
 }
+
+.caption {
+  color: var(--Grey__standard);
+  position: relative;
+  top: -8px;
+}
