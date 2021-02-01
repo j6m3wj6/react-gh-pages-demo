@@ -175,7 +175,7 @@ function Product(props) {
           <Image className='img' centered src={process.env.PUBLIC_URL+ `/img/${data._no}.jpg`}/>
         </div>
         <div style={{ height: 'fit-content' }}>
-          <h5 className='brand'> {`#${data._no} ${data.module}`}{data._no}</h5>
+          <h5 className='brand'> {`#${data._no} ${data.module}`}</h5>
           <p>{data.brand}</p>
           {data.set.length>0 && <p className='set'>set with: {data.set}</p>}
         </div>
