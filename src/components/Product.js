@@ -38,7 +38,7 @@ const BiddingInfo = (props) => {
     else console.log("not complete")
   }
   const submitBidding = async (data) => {
-    return await axios.put('https://tymphany-bidding-server.herokuapp.com/api/bidding', 
+    return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding', 
       data, 
       {'Content-Type': 'application/json'})
         .then((response) => {
