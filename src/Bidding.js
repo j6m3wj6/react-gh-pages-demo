@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Headers from './components/Header'
 import Product from './components/Product'
 import { 
@@ -12,11 +12,17 @@ import {
 
 import axios from 'axios' 
 
+const sample1 = {
+  "_no": "1",
+  "brand": "iHome",
+  "module": "IBN97",
+  "color": "Grey",
+  "type": "Sealed"
+}
 
 function Bidding (props) {
-  const [info, setInfo] = React.useState({name: '', number: ''});
-  const [text, setText] = React.useState('');
   const [data, setData] = React.useState({});
+  const [info, setInfo] = React.useState({name: '', number: ''});
   const handleChange = (e , { name, value }) => {
     const newInfo = info;
     newInfo[name] = value;
@@ -24,68 +30,27 @@ function Bidding (props) {
     console.log(info)
   }
 
-  const handleSubmit = async (e , { name, value }) => {
-    setText(info.name)
-    const res = await axios.get(
-      'https://tymphany-bidding-server.herokuapp.com/api/bidding'
-    )
+
+
+  const fetchResource = async() => {
     // const res = await axios.get(
-    //   'http://localhost:5000/api/bidding'
+    //   'https://tymphany-bidding-server.herokuapp.com/api/bidding'
     // )
-    console.log('submit', res)
+    const res = await axios.get(
+      'http://localhost:5000/api/bidding'
+    )
+    console.log('fetchResource', res)
     setData(res.data.content)
   }
-  console.log('Data', data[0])
+  useEffect(() => { 
+    fetchResource();
+  }, [])
   return (
     <div className="App">
       <Headers />
-      <Segment tertiary style={{ overflow: 'auto', maxWidth: '100wh' }}>
-      <Segment.Group horizontal style={{ width: 'fit-content', margin: 'auto' }} textAlign='center'>
+      <Segment.Group horizontal  textAlign='center' style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}>
         <Product data={data}/>
-        {/* {data.length > 0 && data.map(_d => {
-          <Segment style={{ minWidth: '300px' }}>
-            <Product data={_d}/>
-          </Segment>
-        })} */}
-        {/* <Segment style={{ minWidth: '300px' }}>
-          <Product />
-        </Segment>
-        <Segment style={{ minWidth: '300px' }}>
-          <Product />
-        </Segment> */}
       </Segment.Group>
-      </Segment>
-      <Segment> {text} </Segment>
-      <Grid horizontal >
-        <Form success style={{  margin: '30px auto' }}>
-        <Form.Field>
-          <label id='movie'>姓名(Name)</label>
-          <Form.Input
-            placeholder='Tong Wang'
-            name='name'
-            onChange={handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>工號</label>
-          <Form.Input
-            placeholder='2000xxx'
-            name='number'
-            onChange={handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Checkbox label='I agree to the Terms and Conditions' />
-        </Form.Field>
-        {/* <Message
-          success
-          header='Form Completed'
-          content="Check the bidding status"
-        /> */}
-        
-        <Button type='submit' onClick={handleSubmit}>Submit</Button>
-      </Form>
-      </Grid>
     </div>
   );
 }
