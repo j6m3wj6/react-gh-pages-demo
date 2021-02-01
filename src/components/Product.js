@@ -168,7 +168,6 @@ function Product(props) {
     biddingData.sort(function(a, b) {
         return (b.price - a.price)
     });
-    console.log(biddingData)
     const heighestPrice = biddingData.length>0? `即時出價 $ ${biddingData[0].price}`: '尚未有人出價'
     return (
       <div className='tg_card' >
