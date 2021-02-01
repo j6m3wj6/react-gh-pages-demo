@@ -58,20 +58,30 @@ code {
   width: 350px;
   height: fit-content;
   padding: 8px;
+  margin-bottom: 16px;
+}
+.tg_card .img-content {
+  max-height: 250px;
+  min-height: 250px;
 }
 .tg_card .img {
-  /* min-height: 120px;
-  max-height: 120px; */
-
+  max-height: 250px;
+  /* min-height: 250px; */
+  
+  margin-top: auto;
+  margin-bottom: auto;
 }
-.tg_card .brand, .tg_card .detail-name  {
+.tg_card .set {
+  color: var(--Green__dark);
+}
+.tg_card .brand, .tg_card .bidding-name  {
   font-size: large;
   margin: 0;
 
 }
-.tg_card .price-title .detail-time {
+.tg_card .price-title,  .bidding-time {
   font-size: small;
-  color: var(--Grey__light);
+  color: var(--Grey__dark);
   margin: 8px 0px;
 }
 .tg_card .operations-buttons {
@@ -85,7 +95,18 @@ code {
 
 }
 
-.tg_card .detail {
+.tg_card .bidding {
   max-height: 200px;
   overflow: auto;
+  padding: 8px;
+}
+
+.tg_card .detail {
+  padding: 8px;
+}
+.tg_card .detail .conditions {
+  color: var(--Blue__standard);
+}
+.tg_card .detail .shortage {
+  color: var(--Red__standard)
 }
