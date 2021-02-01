@@ -33,12 +33,12 @@ function Bidding (props) {
 
 
   const fetchResource = async() => {
-    // const res = await axios.get(
-    //   'https://tymphany-bidding-server.herokuapp.com/api/bidding'
-    // )
     const res = await axios.get(
-      'http://localhost:5000/api/bidding'
+      'https://tymphany-bidding-server.herokuapp.com/api/bidding'
     )
+    // const res = await axios.get(
+    //   'http://localhost:5000/api/bidding'
+    // )
     console.log('fetchResource', res)
     setData(res.data.content)
   }
