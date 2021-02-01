@@ -102,7 +102,7 @@ const DetailInfo = (props) => {
   const [showContent, setContent] = React.useState(false)
   const fetchResource = async() => {
     const res = await axios.get(
-      'https://tymphany-bidding-server.herokuapp.com/api/bidding'
+      'https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props._no}'
     )
     // const res = await axios.get(
     //   `http://localhost:5000/api/bidding?_no=${props._no}`
