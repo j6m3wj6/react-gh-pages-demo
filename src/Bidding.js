@@ -7,13 +7,6 @@ import {
 } from 'semantic-ui-react'
 import axios from 'axios' 
 
-const sample1 = {
-  "_no": "1",
-  "brand": "iHome",
-  "module": "IBN97",
-  "color": "Grey",
-  "type": "Sealed"
-}
 
 function Bidding (props) {
   const [data, setData] = React.useState({});
