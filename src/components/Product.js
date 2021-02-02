@@ -230,7 +230,7 @@ function Product(props) {
             <Message
               info
               header={`得標 (Winner)： ${biddingData.length > 0? biddingData[0].name: '無'}`}
-              content={`得標金額(Endding Price): ${heighestPrice}`}
+              content={`得標金額 (Endding Price): ${heighestPrice}`}
             />
           :
           <BiddingInfo basic_price={data.basic_price} _no={data._no} submitFinish={submitFinish}/>

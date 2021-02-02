@@ -29,7 +29,7 @@ function Header(props) {
       :
       <>
         <span style={{whiteSpace:'pre'}}>距離截止剩   </span>
-        <Countdown givenDate = {new Date(2021, 1, 2, 14, 55)} hangleTimeOut={props.hangleTimeOut} />
+        <Countdown givenDate = {new Date(2021, 1, 5, 12, 0)} hangleTimeOut={props.hangleTimeOut} />
       </>
       }
     </div>
