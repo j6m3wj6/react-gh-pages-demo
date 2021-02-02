@@ -44,7 +44,7 @@ function Bidding (props) {
     <div className="App">
       <Headers />
       {data.length > 0 ? 
-        <Segment.Group horizontal textAlign='center' style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}>
+        <Segment.Group horizontal textAlign='center'>
           <Product data={data}/>
         </Segment.Group>
       :
