@@ -34,7 +34,7 @@ function Bidding (props) {
 
   return (
     <div className="App">
-      <Headers hangleTimeOut={hangleTimeOut}/>
+      <Headers timeOut={timeOut} hangleTimeOut={hangleTimeOut}/>
       {data.length > 0 ? 
         <Segment.Group horizontal textAlign='center'>
           <Product timeOut={timeOut} data={data}/>
