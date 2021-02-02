@@ -2,14 +2,9 @@ import React, { useEffect } from 'react';
 import Headers from './components/Header'
 import Product from './components/Product'
 import { 
-  Form,
-  Button,
-  Checkbox,
   Segment,
-  Grid,
-  Message,
+  Loader
 } from 'semantic-ui-react'
-
 import axios from 'axios' 
 
 const sample1 = {
@@ -48,9 +43,15 @@ function Bidding (props) {
   return (
     <div className="App">
       <Headers />
-      <Segment.Group horizontal  textAlign='center' style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}>
-        <Product data={data}/>
-      </Segment.Group>
+      {data.length > 0 ? 
+        <Segment.Group horizontal textAlign='center' style={{ flexWrap: 'wrap', justifyContent: 'space-around' }}>
+          <Product data={data}/>
+        </Segment.Group>
+      :
+        <div className='loader-container' >
+          <Loader active inline='centered' className='loader' />
+        </div>
+      }
     </div>
   );
 }

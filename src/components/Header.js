@@ -1,9 +1,10 @@
-// import logo from '../img/tymphany-logo.png';
 import { 
   Menu, 
   Container, 
   Image, 
 } from 'semantic-ui-react'
+import Countdown from 'react-countdown-to-future-date';
+
 
 function Header() {
   return (
@@ -14,7 +15,10 @@ function Header() {
           Tymphany Bidding Activity
           {/* 2020歲末 帶顆喇叭回家！ */}
         </Menu.Item>
-        <Menu.Item as='a'>Home</Menu.Item>
+        <Menu.Item position='right' className="countdown">
+          <span style={{whiteSpace:'pre'}}>距離截止剩   </span>
+          <Countdown givenDate = {new Date(2021, 1, 5, 12, 0)}  />
+        </Menu.Item>
       </Container>
     </Menu>
   );

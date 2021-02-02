@@ -33,6 +33,24 @@
 --Blue__standard: #0077aa;
 --Blue__dark: #004a6a;
 --Tiel__standard: #14ab9a;
+
+--font__bodyRegular: 400 12px 'Source Sans Pro';
+--font__bodyBold: 700 12px 'Source Sans Pro';
+
+--font__headingLight: 300 18px 'Montserrat';
+--font__headingRegular: 400 18px 'Montserrat';
+--font__headingMedium: 500 18px 'Montserrat';
+--font__headingSemiBold: 600 18px 'Montserrat';
+--font__headingBold: 700 18px 'Montserrat';
+
+--font__header: 700 30px 'Montserrat';
+--font__headerEN: 700 20px 'Montserrat';
+--font__title: 700 16px 'Montserrat';
+--font__subtitle: 700 14px 'Montserrat';
+--font__caption: 300 18px 'Montserrat';
+
+--Menu__height: 60px;
+--Menu__font: 300 18px 'Montserrat';
 }
 
 
@@ -48,6 +66,20 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.ui.menu {
+  height: var(--Menu__height);
+  font: var(--Menu__font);
+  margin: 0;
+}
+.countdown {
+  color: white;
+  height: var(--Menu__height);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  /* font-size: 18px; */
 }
 
 .tg_card {
@@ -116,3 +148,16 @@ code {
   position: relative;
   top: -8px;
 }
+
+.loader-container {
+  height: calc( 100vh - var(--Menu__height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* .loader-container .loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+} */

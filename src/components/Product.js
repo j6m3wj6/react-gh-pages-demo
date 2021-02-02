@@ -9,34 +9,39 @@ import {
   Grid,
   Form,
   List,
-  Header
+  Loader
 } from 'semantic-ui-react'
 
 
 const BiddingInfo = (props) => {
   const [info, setInfo] = React.useState({name: '', number: '', email:'', price: ''});
+  
   const handleChange = (e , { name, value }) => {
     const newInfo = info;
     newInfo[name] = value;
     setInfo(newInfo);
   }
   const handleSubmit = async () => {
-    // let completeInfo = true;
-    // Object.values(info).forEach(element => {
-    //   if (element.length == 0) completeInfo=false;
-    // });
-    // const updateData = {
-    //     _no: props._no,
-    //     updateContent: {
-    //         bidding: {
-    //             ...info,
-    //             time: Date.now()
-    //         }
-    //     }
-    // }
-    // if (completeInfo) submitBidding(updateData)
-    // else console.log("not complete")
+    let inputValid = true;
+    const emailFormat = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    if ( !/./.test(info.name) || !/[0-9]{7}/.test(info.number) || 
+        !emailFormat.test(info.email) || 
+        !/^\d*[05]{1}0$/.test(info.price))
+      inputValid = false
+    
+    const updateData = {
+        _no: props._no,
+        updateContent: {
+            bidding: {
+                ...info,
+                time: Date.now()
+            }
+        }
+    }
+    if (inputValid) submitBidding(updateData)
+    else console.log("not complete")
   }
+
   const submitBidding = async (data) => {
     return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding/append', 
       data, 
@@ -47,8 +52,10 @@ const BiddingInfo = (props) => {
         })
         .catch((error) => {
           console.log(error)
-        })
+      })
   }
+
+
   return (
     <Grid horizontal >
       <Form success style={{  margin: '30px auto' }} >
@@ -56,8 +63,6 @@ const BiddingInfo = (props) => {
         <label id='movie'>姓名 (Name)</label>
         <Form.Input
           required={true}
-          // error={'error'}
-          
           placeholder='Tong Wang'
           name='name'
           onChange={handleChange}
@@ -87,7 +92,7 @@ const BiddingInfo = (props) => {
         <label>出價 (Bidding Price) </label>
         <Form.Input 
           required={true}
-          pattern="([0-9][50]|[00]{2})\w+"
+          pattern="^\d*[05]{1}0$"
           placeholder='請輸入50的倍數 '
           title="請輸入50的倍數。 This number must be in multiples of 50"
           name='price'
@@ -109,7 +114,17 @@ const BiddingInfo = (props) => {
 }
 
 const DetailInfo = (props) => {
-
+  const [biddingData, setData] = React.useState(props.biddingData)
+  const fetchResource = async() => {
+    const res = await axios.get(
+      `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
+    )
+    setData(res.data.content[0].bidding)
+  }
+  useEffect(() => { 
+    fetchResource();
+  }, [])
+  
   return (
     <>
       <div className='detail'>
@@ -118,7 +133,7 @@ const DetailInfo = (props) => {
       </div>
       <Divider horizontal>History</Divider>
       <List divided relaxed className='bidding'>
-        {props.biddingData.length > 0 && props.biddingData.map((_d, index) => {
+        {biddingData.length > 0 && biddingData.map((_d, index) => {
           return(
             <List.Item>
               <List.Content floated='right'>
@@ -131,8 +146,6 @@ const DetailInfo = (props) => {
                   <p className='bidding-time'>{moment(_d.time).format("MMMM Do YYYY, h:mm:ss a")}</p>
                 
               </List.Content>
-              
-              
             </List.Item>
           )
         })} 
@@ -147,12 +160,10 @@ function Product(props) {
   const [showBid, setBid] = React.useState(-1);
   
   const handleOnClickDetail = (event) => {
-    // console.log(event.target.name)
     setDetail(event.target.name)
     setBid(-1)
   }
   const handleOnClickBid= (event) => {
-    // console.log(event.target.name)
     setBid(event.target.name)
     setDetail(-1)
   }
@@ -161,16 +172,16 @@ function Product(props) {
     setDetail(-1)
   }
   
-  const submitFinish = () => {
-    setBid(-1)
-  }
+  const submitFinish = () => { setBid(-1) }
 
   const Card = ({data, index} ) => {
     const biddingData = data.bidding
     biddingData.sort(function(a, b) {
         return (b.price - a.price)
     });
+
     const heighestPrice = biddingData.length>0? `即時出價 $ ${biddingData[0].price}`: '尚未有人出價'
+    
     return (
       <div className='tg_card' >
         <div className='img-content'>
@@ -198,14 +209,8 @@ function Product(props) {
 
   return (
     <>
-    {dataLength > 0? 
-      props.data.map((_d, index) => 
-        <Card data={_d} index={index} />)
-      :
-      <>
-
-      </>
-    }
+      {props.data.map((_d, index) => 
+        <Card data={_d} index={index} />)}
     </>
     
   );
