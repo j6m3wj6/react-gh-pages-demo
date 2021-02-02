@@ -20,7 +20,7 @@ function Header() {
       </Container>
       
     </Menu>
-    <div  className="countdown">
+    <div className="countdown">
       <span style={{whiteSpace:'pre'}}>距離截止剩   </span>
       <Countdown givenDate = {new Date(2021, 1, 5, 12, 0)}  />
     </div>

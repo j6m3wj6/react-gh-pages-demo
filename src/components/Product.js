@@ -115,15 +115,15 @@ const BiddingInfo = (props) => {
 
 const DetailInfo = (props) => {
   const [biddingData, setData] = React.useState(props.biddingData)
-  const fetchResource = async() => {
-    const res = await axios.get(
-      `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
-    )
-    setData(res.data.content[0].bidding)
-  }
-  useEffect(() => { 
-    fetchResource();
-  }, [])
+  // const fetchResource = async() => {
+  //   const res = await axios.get(
+  //     `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
+  //   )
+  //   setData(res.data.content[0].bidding)
+  // }
+  // useEffect(() => { 
+  //   fetchResource();
+  // }, [])
   
   return (
     <>
@@ -172,6 +172,7 @@ function Product(props) {
     setDetail(-1)
   }
   
+  
   const submitFinish = () => { setBid(-1) }
 
   const Card = ({data, index} ) => {
@@ -189,7 +190,10 @@ function Product(props) {
         </div>
         <div style={{ height: 'fit-content' }}>
           <h5 className='brand'> {`#${data._no} ${data.module}`}</h5>
-          <p>{data.brand}</p>
+          <div style={{display:'flex', flexDirection: 'row', justifyContent:"space-between"}}>
+            <p>{data.brand}</p>
+            <p style={{marginRight: '8px'}}>pcs: {data.pcs}</p>
+          </div>
           {data.set.length>0 && <p className='set'>set with: {data.set}</p>}
         </div>
         <Divider />
