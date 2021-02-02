@@ -98,7 +98,7 @@ const BiddingInfo = (props) => {
         <div className="price-container">
           <Statistic color='red' size='small' className="price-basic">
               <Statistic.Value>{props.basic_price}</Statistic.Value>
-              <Statistic.Label>底價  <br />Basic price</Statistic.Label>
+              <Statistic.Label>底價  <br />Base price</Statistic.Label>
           </Statistic>
           <div className="price-input">
             <Input 
@@ -222,7 +222,9 @@ function Product(props) {
         <div className='operations-buttons'>
           <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> Detail </Button>
           <Button inverted color='red' className='operation-button' name={index} onClick={handleOnClickBid}> Bid </Button>
-          {(index == showDetail || index == showBid) && <Icon name="chevron up" bordered style={{minWidth: '30px', margin: 'auto', borderRadius: '3px'}} onClick={chevronUp}/>}
+          {(index == showDetail || index == showBid) && 
+            <Icon name="chevron up" bordered onClick={chevronUp}
+              style={{minWidth: '30px', margin: 'auto', borderRadius: '3px'}} />}
         </div>
         {index == showDetail && <DetailInfo data={data} biddingData={biddingData} />}
         {index == showBid &&
