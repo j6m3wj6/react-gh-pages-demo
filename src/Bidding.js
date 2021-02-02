@@ -35,15 +35,9 @@ function Bidding (props) {
   return (
     <div className="App">
       <Headers timeOut={timeOut} hangleTimeOut={hangleTimeOut}/>
-      {data.length > 0 ? 
-        <Segment.Group horizontal textAlign='center'>
+        <Segment.Group horizontal textAlign='center' >
           <Product timeOut={timeOut} data={data}/>
         </Segment.Group>
-      :
-        <div className='loader-container' >
-          <Loader active inline='centered' className='loader' />
-        </div>
-      }
     </div>
   );
 }

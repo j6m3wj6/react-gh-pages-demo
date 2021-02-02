@@ -72,26 +72,36 @@ code {
 .ui.menu {
   height: var(--Menu__height);
   font: var(--Menu__font);
+  border-radius: 0;
   margin: 0;
+  background-color: black;
+
+}
+.ui.menu .item {
+  color: white;
 }
 .countdown {
   color: var(--Blue__standard);
   /* height: var(--Menu__height); */
+  
   margin: 8px auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  font: var(--Countdown__font)
+  font: var(--Countdown__font);
 }
-.segments {
+.ui.horizontal.segments {
   flex-wrap: wrap;
   justify-content: space-around;
+  border-radius: 0;
   margin: 0;
+  padding-top: 12px;
 }
 .tg_card {
-  border: 1px solid #efefef;
+  border: 1px solid var(--Grey__light);
   border-radius: 5px;
   box-sizing: border-box;
+  background-color: white;
 
   width: 350px;
   height: fit-content;

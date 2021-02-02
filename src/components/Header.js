@@ -11,7 +11,7 @@ function Header(props) {
 
   return (
     <>
-    <Menu inverted>
+    <Menu >
         <Menu.Item as='a' header>
           <Image  src={process.env.PUBLIC_URL+ '/img/logo.png'} style={{ height: '60px', marginRight: '8px' }} />
           2021 Bidding Activity 
@@ -25,8 +25,7 @@ function Header(props) {
         <span>競標已截止</span>
       :
       <>
-          <Icon style={{height: "100%"}} name="hourglass two" />
-        {/* <span style={{whiteSpace:'pre'}}>距離截止剩   </span> */}
+        <Icon style={{marginTop: "auto", marginBottom: 'auto'}} name="hourglass two" />
         <Countdown givenDate = {new Date(2021, 1, 5, 12, 0)} hangleTimeOut={props.hangleTimeOut} />
       </>
       }

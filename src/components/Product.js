@@ -6,178 +6,28 @@ import {
   Icon,
   Button,
   Divider,
-  Grid,
-  Form,
-  List,
+  Loader,
   Message,
-  Input,
-  Label,
-  Statistic
 } from 'semantic-ui-react'
+import BiddingInfo from './BiddingInfo'
+import DetailInfo from './DetailInfo'
 
 
-const BiddingInfo = (props) => {
-  const [info, setInfo] = React.useState({name: '', number: '', email:'', price: ''});
-  const [inputLessThanBasic, setLessThanBasic] = React.useState(false)
-  const handleChange = (e , { name, value }) => {
-    const newInfo = info;
-    newInfo[name] = value;
-    setInfo(newInfo);
-    setLessThanBasic(false)
-  }
-  const handleSubmit = async () => {
-    let inputValid = true;
-    const emailFormat = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-    if ( !/./.test(info.name) || !/[0-9]{7}/.test(info.number) || 
-        !emailFormat.test(info.email) || 
-        !/^\d*[05]{1}0$/.test(info.price))
-      inputValid = false
-
-    if (info.price - props.basic_price < 0) {
-      inputValid = false
-      setLessThanBasic(true)
-    }
-    const updateData = {
-        _no: props._no,
-        updateContent: {
-            bidding: {
-                ...info,
-                time: Date.now()
-            }
-        }
-    }
-    if (inputValid) submitBidding(updateData)
-    else console.log("not complete")
-  }
-  const submitBidding = async (data) => {
-    return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding/append', 
-      data, 
-      {'Content-Type': 'application/json'})
-        .then((response) => {
-          props.submitFinish();
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-      })
-  }
-  return (
-    <Grid horizontal >
-      <Form error style={{  margin: '30px auto' }} >
-      <Form.Field>
-        <label id='movie'>姓名 (Name)</label>
-        <Form.Input
-          required={true}
-          placeholder='ex. Tong Wang'
-          name='name'
-          onChange={handleChange}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>工號 (EmployeeID)</label>
-        <Form.Input
-          required={true}
-          pattern="[0-9]{7}"
-          placeholder='ex. 2000xxx'
-          name='number'
-          onChange={handleChange}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>Email </label>
-        <Form.Input
-          required={true}
-          type='email'
-          placeholder='ex. tong.wang@tymphany.com'
-          name='email'
-          onChange={handleChange}
-        />
-      </Form.Field>
-      <Form.Field >
-        <label>出價 (Bidding Price) </label>
-        <div className="price-container">
-          <Statistic color='red' size='small' className="price-basic">
-              <Statistic.Value>{props.basic_price}</Statistic.Value>
-              <Statistic.Label>底價  <br />Base price</Statistic.Label>
-          </Statistic>
-          <div className="price-input">
-            <Input 
-              required={true}
-              pattern="^\d*[05]{1}0$"
-              name='price'
-              title="請以50元為單位出價。"
-              labelPosition='left' type='text'
-              onChange={handleChange}
-              placeholder={`ex. ${props.basic_price}`}
-              >
-              <Label basic>$</Label>
-              <input />
-            </Input>
-            <span className="caption">*請以50元為單位出價 <br />Price must be in multiples of 50</span>
-          </div>
-        </div>
-        
-
-        
-      </Form.Field>
-      {inputLessThanBasic && <Message
-        error
-        header='請輸入高於底價的數目'
-        content="Price must be higher than base price"
-      />}
-      
-      <Button type='submit' onClick={handleSubmit}>Submit</Button>
-    </Form>
-    </Grid>
-  )
-}
-
-const DetailInfo = (props) => {
-  const [biddingData, setData] = React.useState(props.biddingData)
+function Product(props) {
+  const [showDetail, setDetail] = React.useState(-1);
+  const [showBid, setBid] = React.useState(-1);
+  const [data, setData] = React.useState({});
   const fetchResource = async() => {
     const res = await axios.get(
-      `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
+      'https://tymphany-bidding-server.herokuapp.com/api/bidding'
     )
-    setData(res.data.content[0].bidding)
+    console.log('fetchResource', res)
+    setData(res.data.content)
   }
   useEffect(() => { 
     fetchResource();
-  }, [])  
-  
-  return (
-    <>
-      <div className='detail'>
-        <span className='conditions'><strong> Check: </strong>{props.data.conditions}</span>
-        <p className='shortage'><strong> Shortage: </strong> {props.data.shortage}</p>
-      </div>
-      {/* <Divider horizontal>History</Divider>
-      <List divided relaxed className='bidding'>
-        {biddingData.length > 0 && biddingData.map((_d, index) => {
-          return(
-            <List.Item>
-              <List.Content floated='right'>
-                  <h5 className='bidding-name'>${_d.price}</h5>
-              </List.Content>
-              <List.Icon name='dollar' size='large' verticalAlign='middle' />
-              
-              <List.Content>
-                  <h5 className='bidding-name'>{_d.name}</h5>
-                  <p className='bidding-time'>{moment(_d.time).format("MMMM Do YYYY, h:mm:ss a")}</p>
-                
-              </List.Content>
-            </List.Item>
-          )
-        })} 
-      </List> */}
-    </>
-  )
-}
+  }, [])
 
-function Product(props) {
-  const dataLength = props.data.length? props.data.length : 0;
-  const [showDetail, setDetail] = React.useState(-1);
-  const [showBid, setBid] = React.useState(-1);
-  
   const handleOnClickDetail = (event) => {
     setDetail(event.target.name)
     setBid(-1)
@@ -190,15 +40,18 @@ function Product(props) {
     setBid(-1)
     setDetail(-1)
   }
-  
-  
-  const submitFinish = () => { setBid(-1) }
+
+  const submitFinish = () => { 
+    setBid(-1);
+    fetchResource();
+  }
 
   const Card = ({data, index} ) => {
     const biddingData = data.bidding
     biddingData.sort(function(a, b) {
         return (b.price - a.price)
     });
+
     const heighestPrice_title = biddingData.length > 0? `即時出價 $ `: '尚未有人出價'
     const heighestPrice = biddingData.length > 0? `${biddingData[0].price}`: ''
     
@@ -217,10 +70,10 @@ function Product(props) {
         </div>
         <Divider />
         <div>
-          <p className='price-title'> {heighestPrice_title}{heighestPrice}</p>
+          <p className='price-title'> {heighestPrice_title} <strong style={{fontSize: '18px', color: '#0077aa' }}> {heighestPrice} </strong></p>
         </div>
         <div className='operations-buttons'>
-          <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> Detail </Button>
+          <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> Details </Button>
           <Button inverted color='red' className='operation-button' name={index} onClick={handleOnClickBid}> Bid </Button>
           {(index == showDetail || index == showBid) && 
             <Icon name="chevron up" bordered onClick={chevronUp}
@@ -243,8 +96,13 @@ function Product(props) {
 
   return (
     <>
-      {props.data.map((_d, index) => 
-        <Card data={_d} index={index} />)}
+      {data.length > 0 ? 
+        data.map((_d, index) => <Card data={_d} index={index} />)
+      :
+        <div className='loader-container' >
+          <Loader active inline='centered' className='loader' />
+        </div>
+      }
     </>
     
   );
