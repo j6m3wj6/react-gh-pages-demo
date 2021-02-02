@@ -11,14 +11,7 @@ import axios from 'axios'
 function Bidding (props) {
   const [data, setData] = React.useState({});
   const [info, setInfo] = React.useState({name: '', number: ''});
-  const handleChange = (e , { name, value }) => {
-    const newInfo = info;
-    newInfo[name] = value;
-    setInfo(newInfo);
-    console.log(info)
-  }
-
-
+  const [timeOut, setTimeOut] = React.useState(false)
 
   const fetchResource = async() => {
     const res = await axios.get(
@@ -33,12 +26,18 @@ function Bidding (props) {
   useEffect(() => { 
     fetchResource();
   }, [])
+
+  const hangleTimeOut = () => {
+    console.log('timeOut')
+    setTimeOut(true);
+  }
+
   return (
     <div className="App">
-      <Headers />
+      <Headers hangleTimeOut={hangleTimeOut}/>
       {data.length > 0 ? 
         <Segment.Group horizontal textAlign='center'>
-          <Product data={data}/>
+          <Product timeOut={timeOut} data={data}/>
         </Segment.Group>
       :
         <div className='loader-container' >

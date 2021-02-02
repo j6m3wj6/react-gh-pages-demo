@@ -7,12 +7,8 @@ import {
 import Countdown from 'react-countdown-to-future-date';
 
 
-function Header() {
-  const [timeOut, setTimeOut] = React.useState(false)
-  const hangleTimeOut = () => {
-    console.log('timeOut')
-    setTimeOut(true);
-  }
+function Header(props) {
+
   return (
     <>
     <Menu inverted>
@@ -28,12 +24,12 @@ function Header() {
     </Menu>
     <div className="countdown">
       
-      {timeOut? 
+      {props.timeOut? 
         <span>競標已截止</span>
       :
       <>
         <span style={{whiteSpace:'pre'}}>距離截止剩   </span>
-        <Countdown givenDate = {new Date(2021, 1, 2, 14, 55)} hangleTimeOut={hangleTimeOut} />
+        <Countdown givenDate = {new Date(2021, 1, 3, 14, 55)} hangleTimeOut={props.hangleTimeOut} />
       </>
       }
     </div>

@@ -152,7 +152,7 @@ code {
 .caption {
   color: var(--Grey__standard);
   position: relative;
-  top: -8px;
+  /* top: -8px; */
 }
 
 .loader-container {
@@ -167,3 +167,20 @@ code {
   display: flex;
   justify-content: center;
 } */
+
+
+.price-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.price-basic {
+  flex-grow: 1;
+}
+.price-input {
+  flex-grow: 1;
+  margin: 4px;
+}

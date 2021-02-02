@@ -9,17 +9,21 @@ import {
   Grid,
   Form,
   List,
-  Loader
+  Message,
+  Input,
+  Label,
+  Statistic
 } from 'semantic-ui-react'
 
 
 const BiddingInfo = (props) => {
   const [info, setInfo] = React.useState({name: '', number: '', email:'', price: ''});
-  
+  const [inputLessThanBasic, setLessThanBasic] = React.useState(false)
   const handleChange = (e , { name, value }) => {
     const newInfo = info;
     newInfo[name] = value;
     setInfo(newInfo);
+    setLessThanBasic(false)
   }
   const handleSubmit = async () => {
     let inputValid = true;
@@ -28,7 +32,11 @@ const BiddingInfo = (props) => {
         !emailFormat.test(info.email) || 
         !/^\d*[05]{1}0$/.test(info.price))
       inputValid = false
-    
+
+    if (info.price - props.basic_price < 0) {
+      inputValid = false
+      setLessThanBasic(true)
+    }
     const updateData = {
         _no: props._no,
         updateContent: {
@@ -41,7 +49,6 @@ const BiddingInfo = (props) => {
     if (inputValid) submitBidding(updateData)
     else console.log("not complete")
   }
-
   const submitBidding = async (data) => {
     return await axios.post('https://tymphany-bidding-server.herokuapp.com/api/bidding/append', 
       data, 
@@ -54,16 +61,14 @@ const BiddingInfo = (props) => {
           console.log(error)
       })
   }
-
-
   return (
     <Grid horizontal >
-      <Form success style={{  margin: '30px auto' }} >
+      <Form error style={{  margin: '30px auto' }} >
       <Form.Field>
         <label id='movie'>姓名 (Name)</label>
         <Form.Input
           required={true}
-          placeholder='Tong Wang'
+          placeholder='ex. Tong Wang'
           name='name'
           onChange={handleChange}
         />
@@ -73,7 +78,7 @@ const BiddingInfo = (props) => {
         <Form.Input
           required={true}
           pattern="[0-9]{7}"
-          placeholder='2000xxx'
+          placeholder='ex. 2000xxx'
           name='number'
           onChange={handleChange}
         />
@@ -83,29 +88,43 @@ const BiddingInfo = (props) => {
         <Form.Input
           required={true}
           type='email'
-          placeholder='tong.wang@tymphany.com'
+          placeholder='ex. tong.wang@tymphany.com'
           name='email'
           onChange={handleChange}
         />
       </Form.Field>
       <Form.Field >
         <label>出價 (Bidding Price) </label>
-        <Form.Input 
-          required={true}
-          pattern="^\d*[05]{1}0$"
-          placeholder='請輸入50的倍數 '
-          title="請輸入50的倍數。 This number must be in multiples of 50"
-          name='price'
-          onChange={handleChange}
-        />
-        <span className="caption">*This number must be in multiples of 50</span>
+        <div className="price-container">
+          <Statistic color='red' size='small' className="price-basic">
+              <Statistic.Value>{props.basic_price}</Statistic.Value>
+              <Statistic.Label>底價  <br />Basic price</Statistic.Label>
+          </Statistic>
+          <div className="price-input">
+            <Input 
+              required={true}
+              pattern="^\d*[05]{1}0$"
+              name='price'
+              title="請以50元為單位出價。"
+              labelPosition='left' type='text'
+              onChange={handleChange}
+              placeholder={`ex. ${props.basic_price}`}
+              >
+              <Label basic>$</Label>
+              <input />
+            </Input>
+            <span className="caption">*請以50元為單位出價 <br />Price must be in multiples of 50</span>
+          </div>
+        </div>
+        
+
+        
       </Form.Field>
-      
-      {/* <Message
-        success
-        header='Form Completed'
-        content="Check the bidding status"
-      /> */}
+      {inputLessThanBasic && <Message
+        error
+        header='請輸入高於底價的數目'
+        content="Price must be higher than base price"
+      />}
       
       <Button type='submit' onClick={handleSubmit}>Submit</Button>
     </Form>
@@ -115,15 +134,15 @@ const BiddingInfo = (props) => {
 
 const DetailInfo = (props) => {
   const [biddingData, setData] = React.useState(props.biddingData)
-  // const fetchResource = async() => {
-  //   const res = await axios.get(
-  //     `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
-  //   )
-  //   setData(res.data.content[0].bidding)
-  // }
-  // useEffect(() => { 
-  //   fetchResource();
-  // }, [])
+  const fetchResource = async() => {
+    const res = await axios.get(
+      `https://tymphany-bidding-server.herokuapp.com/api/bidding?_no=${props.data._no}`
+    )
+    setData(res.data.content[0].bidding)
+  }
+  useEffect(() => { 
+    fetchResource();
+  }, [])  
   
   return (
     <>
@@ -131,7 +150,7 @@ const DetailInfo = (props) => {
         <span className='conditions'><strong> Check: </strong>{props.data.conditions}</span>
         <p className='shortage'><strong> Shortage: </strong> {props.data.shortage}</p>
       </div>
-      <Divider horizontal>History</Divider>
+      {/* <Divider horizontal>History</Divider>
       <List divided relaxed className='bidding'>
         {biddingData.length > 0 && biddingData.map((_d, index) => {
           return(
@@ -149,7 +168,7 @@ const DetailInfo = (props) => {
             </List.Item>
           )
         })} 
-      </List>
+      </List> */}
     </>
   )
 }
@@ -180,8 +199,8 @@ function Product(props) {
     biddingData.sort(function(a, b) {
         return (b.price - a.price)
     });
-
-    const heighestPrice = biddingData.length > 0? `即時出價 $ ${biddingData[0].price}`: '尚未有人出價'
+    const heighestPrice_title = biddingData.length > 0? `即時出價 $ `: '尚未有人出價'
+    const heighestPrice = biddingData.length > 0? `${biddingData[0].price}`: ''
     
     return (
       <div className='tg_card' >
@@ -198,7 +217,7 @@ function Product(props) {
         </div>
         <Divider />
         <div>
-          <p className='price-title'> {heighestPrice}</p>
+          <p className='price-title'> {heighestPrice_title}{heighestPrice}</p>
         </div>
         <div className='operations-buttons'>
           <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> Detail </Button>
@@ -206,7 +225,16 @@ function Product(props) {
           {(index == showDetail || index == showBid) && <Icon name="chevron up" bordered style={{minWidth: '30px', margin: 'auto', borderRadius: '3px'}} onClick={chevronUp}/>}
         </div>
         {index == showDetail && <DetailInfo data={data} biddingData={biddingData} />}
-        {index == showBid && <BiddingInfo _no={data._no} submitFinish={submitFinish}/>}
+        {index == showBid &&
+          (props.timeOut?
+            <Message
+              error
+              header='競標已截止'
+              content={`Endding Price ${heighestPrice}`}
+            />
+          :
+          <BiddingInfo basic_price={data.basic_price} _no={data._no} submitFinish={submitFinish}/>
+        )}
       </div>   
     )
   }
