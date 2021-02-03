@@ -2,7 +2,8 @@ import React from 'react'
 import { 
   Menu, 
   Image, 
-  Icon
+  Icon,
+  Container
 } from 'semantic-ui-react'
 import Countdown from 'react-countdown-to-future-date';
 
@@ -27,9 +28,11 @@ function Header(props) {
       <>
         <Icon style={{marginTop: "auto", marginBottom: 'auto'}} name="hourglass two" />
         <Countdown givenDate = {new Date(2021, 1, 5, 13, 0)} hangleTimeOut={props.hangleTimeOut} />
+
       </>
       }
     </div>
+    <Container textAlign='center'className='anounce'>實體商品在 Ｄ棟 8樓 Blue 會議室</Container>
     </>
   );
 }

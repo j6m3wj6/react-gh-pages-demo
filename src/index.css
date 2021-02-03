@@ -194,3 +194,9 @@ code {
   flex-grow: 1;
   margin: 4px;
 }
+
+.anounce {
+  font: var(--Countdown__font);
+  color: var(var(--Grey__dark));
+  margin: 8px;
+}
