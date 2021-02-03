@@ -90,7 +90,7 @@ function BiddingInfo(props) {
         />
       </Form.Field>
       <Form.Field >
-        <label>出價 (Bidding Price) </label>
+        <label>出價 (Bid Price) </label>
         <div className="price-container">
           <Statistic color='red' size='small' className="price-basic">
               <Statistic.Value>{props.basic_price}</Statistic.Value>

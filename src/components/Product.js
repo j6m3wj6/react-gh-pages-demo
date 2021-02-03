@@ -52,8 +52,8 @@ function Product(props) {
         return (b.price - a.price)
     });
 
-    const heighestPrice_title = biddingData.length > 0? `即時出價 $ `: '尚未有人出價'
-    const heighestPrice = biddingData.length > 0? `${biddingData[0].price}`: ''
+    const heighestPrice_title = biddingData.length > 0? `即時出價 Current Bid $ `: '尚未有人出價 Starting Bid $ '
+    const heighestPrice = biddingData.length > 0? `${biddingData[0].price}`: `${data.basic_price}`
     
     return (
       <div className='tg_card' >
@@ -73,8 +73,8 @@ function Product(props) {
           <p className='price-title'> {heighestPrice_title} <strong style={{fontSize: '18px', color: '#0077aa' }}> {heighestPrice} </strong></p>
         </div>
         <div className='operations-buttons'>
-          <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> Details </Button>
-          <Button inverted color='red' className='operation-button' name={index} onClick={handleOnClickBid}> Bid </Button>
+          <Button inverted color='blue' className='operation-button' name={index} onClick={handleOnClickDetail}> View Details </Button>
+          <Button inverted color='red' className='operation-button' name={index} onClick={handleOnClickBid}> Bid Now </Button>
           {(index == showDetail || index == showBid) && 
             <Icon name="chevron up" bordered onClick={chevronUp}
               style={{minWidth: '30px', margin: 'auto', borderRadius: '3px'}} />}
@@ -84,7 +84,7 @@ function Product(props) {
           (props.timeOut?
             <Message
               info
-              header={`得標 (Winner)： ${biddingData.length > 0? biddingData[0].name: '無'}`}
+              header={`得標者 (Winner)： ${biddingData.length > 0? biddingData[0].name: '無'}`}
               content={`得標金額 (Endding Price): ${heighestPrice}`}
             />
           :
@@ -101,6 +101,7 @@ function Product(props) {
       :
         <div className='loader-container' >
           <Loader active inline='centered' className='loader' />
+          <span style={{margin: '16px', color: '#485146'}}>Loading... (about 30 seconds)</span>
         </div>
       }
     </>
