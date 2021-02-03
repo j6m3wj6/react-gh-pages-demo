@@ -26,7 +26,7 @@ function Header(props) {
       :
       <>
         <Icon style={{marginTop: "auto", marginBottom: 'auto'}} name="hourglass two" />
-        <Countdown givenDate = {new Date(2021, 1, 5, 12, 0)} hangleTimeOut={props.hangleTimeOut} />
+        <Countdown givenDate = {new Date(2021, 1, 5, 13, 0)} hangleTimeOut={props.hangleTimeOut} />
       </>
       }
     </div>
